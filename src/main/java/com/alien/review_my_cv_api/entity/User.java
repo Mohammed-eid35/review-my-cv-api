@@ -14,6 +14,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -38,6 +39,9 @@ public class User implements UserDetails, Principal {
     private boolean accountLocked;
     private boolean accountEnabled;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -52,7 +56,10 @@ public class User implements UserDetails, Principal {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles
+                .stream()
+                .map(role -> (GrantedAuthority) role::getName)
+                .toList();
     }
 
     @Override
