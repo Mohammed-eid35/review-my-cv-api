@@ -1,6 +1,5 @@
 package com.alien.review_my_cv_api.security;
 
-import com.alien.review_my_cv_api.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
