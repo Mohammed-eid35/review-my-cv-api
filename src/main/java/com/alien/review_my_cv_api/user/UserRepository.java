@@ -1,6 +1,5 @@
-package com.alien.review_my_cv_api.repository;
+package com.alien.review_my_cv_api.user;
 
-import com.alien.review_my_cv_api.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
