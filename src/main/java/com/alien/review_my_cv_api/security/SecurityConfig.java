@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.config.security;
+package com.alien.review_my_cv_api.security;
 
 import com.alien.review_my_cv_api.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;

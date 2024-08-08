@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.config;
+package com.alien.review_my_cv_api.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

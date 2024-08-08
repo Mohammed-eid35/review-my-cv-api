@@ -1,6 +1,7 @@
-package com.alien.review_my_cv_api.entity;
+package com.alien.review_my_cv_api.token;
 
 
+import com.alien.review_my_cv_api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
