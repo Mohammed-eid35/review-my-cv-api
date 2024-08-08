@@ -2,6 +2,7 @@ package com.alien.review_my_cv_api.config.security;
 
 import com.alien.review_my_cv_api.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -23,6 +24,7 @@ public class SecurityConfig {
     private final JwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
