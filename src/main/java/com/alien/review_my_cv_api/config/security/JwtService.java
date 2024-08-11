@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.security;
+package com.alien.review_my_cv_api.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
