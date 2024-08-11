@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.config.security;
+package com.alien.review_my_cv_api.config.audit;
 
 import com.alien.review_my_cv_api.entity.User;
 import org.springframework.data.domain.AuditorAware;

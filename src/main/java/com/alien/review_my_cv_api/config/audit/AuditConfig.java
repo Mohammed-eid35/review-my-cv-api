@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.config.security;
+package com.alien.review_my_cv_api.config.audit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
