@@ -20,7 +20,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private static final String BEARER_PREFIX = "Bearer ";
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -35,21 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = extractJwtFromRequest(request);
+        String jwt = jwtService.extractJwtFromRequest(request);
         String userEmail = jwtService.extractUsername(jwt);
         if (jwt != null && userEmail != null && isAuthenticationAbsent()) {
             authenticateRequest(request, userEmail, jwt);
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private String extractJwtFromRequest(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
-            return null;
-        }
-        return authHeader.substring(BEARER_PREFIX.length());
     }
 
     private boolean isAuthenticationAbsent() {
