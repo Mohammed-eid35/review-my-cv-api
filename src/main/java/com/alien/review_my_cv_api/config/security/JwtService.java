@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class JwtService {
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String TOKEN_PREFIX = "Bearer ";
 
     private final TokenBlacklistService tokenBlacklistService;
 
@@ -29,9 +32,6 @@ public class JwtService {
 
     @Value("${application.security.jwt.expiration}")
     private long JwtExpirationTime;
-
-    private static final String BEARER_PREFIX = "Bearer ";
-
 
     public String generateAccessToken(User user) {
         return generateToken(user);
@@ -99,12 +99,12 @@ public class JwtService {
                 .getBody();
     }
 
-    public String extractJwtFromRequest(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
-            return null;
-        }
-        return authHeader.substring(BEARER_PREFIX.length());
+    public String getJwtFromRequest(HttpServletRequest request) {
+        return Optional
+                .ofNullable(request.getHeader(AUTHORIZATION_HEADER))
+                .filter(authHeader -> authHeader.startsWith(TOKEN_PREFIX))
+                .map(authHeader -> authHeader.substring(TOKEN_PREFIX.length()))
+                .orElse(null);
     }
 
     private Key getSigningKey() {

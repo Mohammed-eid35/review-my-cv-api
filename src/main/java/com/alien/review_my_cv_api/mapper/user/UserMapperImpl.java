@@ -25,7 +25,7 @@ public class UserMapperImpl implements UserMapper {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .accountLocked(false)
-                .accountEnabled(false)
+                .accountEnabled(true) // TODO: set to false when email verification is implemented
                 .roles(List.of(roleService.getRoleByName("USER")))
                 .build();
     }

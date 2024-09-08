@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RefreshTokenResponseDto refreshToken(@NonNull HttpServletRequest request) {
-        var refreshToken = jwtService.extractJwtFromRequest(request);
+        var refreshToken = jwtService.getJwtFromRequest(request);
         var userEmail = jwtService.extractUsername(refreshToken);
         var user = userService.getUserByEmail(userEmail);
 

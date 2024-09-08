@@ -34,6 +34,7 @@ public class SecurityConfig {
             "/configuration/security",
             "/swagger-ui/**",
             "/webjars/**",
+            "/swagger-ui/index.html",
             "/swagger-ui.html"
     };
 
@@ -42,8 +43,8 @@ public class SecurityConfig {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req -> req
-                        .requestMatchers(AUTH_WHITELIST)
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(AUTH_WHITELIST)
                         .permitAll()
                         .anyRequest()
                         .authenticated()
