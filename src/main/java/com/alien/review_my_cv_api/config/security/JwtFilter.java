@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.security;
+package com.alien.review_my_cv_api.config.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private static final String BEARER_PREFIX = "Bearer ";
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -35,38 +34,31 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = extractJwtFromRequest(request);
-        String userEmail = jwtService.extractUsername(jwt);
-        if (jwt != null && userEmail != null && isAuthenticationAbsent()) {
-            authenticateRequest(request, userEmail, jwt);
-        }
+        String jwt = jwtService.getJwtFromRequest(request);
+        if (jwt != null && isAuthenticationRequired()) {
+            String userEmail = jwtService.extractUsername(jwt);
 
+            if (userEmail != null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    setAuthenticationContext(userDetails, request);
+                }
+            }
+        }
         filterChain.doFilter(request, response);
     }
 
-    private String extractJwtFromRequest(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
-            return null;
-        }
-        return authHeader.substring(BEARER_PREFIX.length());
-    }
-
-    private boolean isAuthenticationAbsent() {
+    private boolean isAuthenticationRequired() {
         return SecurityContextHolder.getContext().getAuthentication() == null;
     }
 
-    private void authenticateRequest(HttpServletRequest request, String userEmail, String jwt) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
-
-        if (jwtService.isTokenValid(jwt, userDetails)) {
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-        }
+    private void setAuthenticationContext(UserDetails userDetails, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

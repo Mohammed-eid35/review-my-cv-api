@@ -1,4 +1,4 @@
-package com.alien.review_my_cv_api.security;
+package com.alien.review_my_cv_api.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,24 +23,28 @@ public class SecurityConfig {
     private final JwtFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    private static final String[] AUTH_WHITELIST = {
+            "/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui/index.html",
+            "/swagger-ui.html"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req -> req.requestMatchers(
-                                "/auth/**",
-                                "/v2/api-docs",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui/**",
-                                "/webjars/**",
-                                "/swagger-ui.html"
-                        )
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(AUTH_WHITELIST)
                         .permitAll()
                         .anyRequest()
                         .authenticated()

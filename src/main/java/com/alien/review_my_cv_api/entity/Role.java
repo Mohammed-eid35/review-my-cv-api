@@ -1,6 +1,5 @@
-package com.alien.review_my_cv_api.role;
+package com.alien.review_my_cv_api.entity;
 
-import com.alien.review_my_cv_api.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

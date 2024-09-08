@@ -1,17 +1,19 @@
-package com.alien.review_my_cv_api.security;
+package com.alien.review_my_cv_api.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
+public class AuthenticationConfig {
 
     private final UserDetailsService userDetailsService;
 
@@ -21,6 +23,11 @@ public class ApplicationConfig {
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean
