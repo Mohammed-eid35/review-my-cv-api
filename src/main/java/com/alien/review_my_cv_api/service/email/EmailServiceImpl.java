@@ -28,7 +28,7 @@ public class EmailServiceImpl implements EmailService {
         }
         String emailBody = """
                 <div class="container">
-                    <p>Thank you for registering at XJudge. Please click the link below to verify your email:</p>
+                    <p>Thank you for registering at CV Reviewer. Please click the link below to verify your email:</p>
                     <a href="#">Verify Email</a>
                     <p>If you did not register at CV Reviewer, please ignore this email.</p>
                     <p>Best Regards,</p>
