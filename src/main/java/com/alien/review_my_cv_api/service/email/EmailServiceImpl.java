@@ -28,10 +28,11 @@ public class EmailServiceImpl implements EmailService {
         }
         String emailBody = """
                 <div class="container">
-                    <h1>Email Verification</h1>
-                    <p>Thank you for registering! Please check your email and click on the verification link to activate your account.</p>
+                    <p>Thank you for registering at XJudge. Please click the link below to verify your email:</p>
                     <a href="#">Verify Email</a>
-                    <p>If you did not receive the email, <a href="#">click here</a> to resend.</p>
+                    <p>If you did not register at CV Reviewer, please ignore this email.</p>
+                    <p>Best Regards,</p>
+                    <p>The CV Reviewer Team</p>
                 </div>
                 """;
         MimeMessage message = mailSender.createMimeMessage();
